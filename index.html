@@ -19,36 +19,36 @@
     header img{width:70px;height:70px;animation:pulse-logo 2.5s ease-in-out infinite}
     @keyframes pulse-logo{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
 
-    /* MENU DESKTOP - NUNCA SE ENVUELVE */
+    /* MENU DESKTOP - AHORA SÍ CABE TODO */
     .nav-menu{
       display:flex;
-      gap:16px;
+      gap:12px;
       align-items:center;
-      flex-wrap:nowrap !important;
-      overflow:hidden
+      flex-wrap:nowrap;
+      overflow:visible;
+      max-width:100%
     }
-    .nav-menu a{
+    .nav-menu a, .nav-menu button{
       color:#fff;
       text-decoration:none;
-      font-size:1rem;
+      font-size:0.95rem;
       font-weight:500;
       white-space:nowrap;
       transition:all .3s ease
     }
     .nav-menu a:hover{color:#ff6b6b;transform:translateY(-2px)}
 
-    /* BOTÓN INGRESAR - SIEMPRE VISIBLE */
+    /* BOTÓN INGRESAR - ANTES DE INICIO */
     #loginBtn{
       background:#d21f26;
       color:white;
-      padding:10px 22px;
+      padding:8px 18px;
       border-radius:50px;
       font-weight:600;
-      font-size:0.95rem;
+      font-size:0.9rem;
       border:none;
       cursor:pointer;
-      white-space:nowrap;
-      min-width:100px;
+      min-width:90px;
       transition:all .3s ease
     }
     #loginBtn:hover{
@@ -64,43 +64,25 @@
       header{padding:10px 15px}
       header img{width:60px;height:60px}
       .nav-menu{
-        position:absolute;
-        top:100%;left:0;width:100%;
+        position:absolute;top:100%;left:0;width:100%;
         background:rgba(10,34,64,0.98);
-        flex-direction:column;
-        gap:0;padding:0;
+        flex-direction:column;gap:0;padding:0;
         box-shadow:0 4px 10px rgba(0,0,0,0.2);
-        opacity:0;visibility:hidden;
-        transform:translateY(-10px);
-        transition:all .3s ease;
-        pointer-events:none
+        opacity:0;visibility:hidden;transform:translateY(-10px);
+        transition:all .3s ease;pointer-events:none
       }
       .nav-menu.active{
-        opacity:1;visibility:visible;
-        transform:translateY(0);
-        pointer-events:auto
+        opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto
       }
-      .nav-menu a{
-        display:block;
-        padding:14px 20px;
-        font-size:1rem;
-        text-align:center;
-        border-bottom:1px solid rgba(255,255,255,0.1);
-        width:100%
+      .nav-menu a, .nav-menu button{
+        display:block;padding:14px 20px;font-size:1rem;text-align:center;
+        border-bottom:1px solid rgba(255,255,255,0.1);width:100%
       }
-      .nav-menu a:last-child{border-bottom:none}
+      .nav-menu a:last-child, .nav-menu button:last-child{border-bottom:none}
       #loginBtn{
-        margin:10px 20px;
-        padding:12px 24px;
-        background:#d21f26;
-        color:white;
-        border-radius:50px;
-        font-weight:600;
-        font-size:1rem;
-        display:block;
-        width:fit-content;
-        border:none;
-        cursor:pointer
+        margin:10px 20px;padding:12px 24px;background:#d21f26;color:white;
+        border-radius:50px;font-weight:600;font-size:1rem;display:block;
+        width:fit-content;border:none;cursor:pointer
       }
       .hamburger{display:block}
     }
@@ -108,12 +90,12 @@
     @media (max-width:480px){
       header{padding:8px 10px}
       header img{width:50px;height:50px}
-      .nav-menu a{font-size:.95rem;padding:12px 15px}
-      #loginBtn{font-size:0.95rem;padding:10px 20px;margin:8px 15px}
+      .nav-menu a, .nav-menu button{font-size:.95rem;padding:12px 15px}
+      #loginBtn{font-size:0.9rem;padding:10px 20px;margin:8px 15px}
       .hamburger{font-size:1.3rem}
     }
 
-    /* RESTO DEL DISEÑO */
+    /* RESTO DEL DISEÑO (sin cambios) */
     .hero{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px 20px;min-height:100vh;text-align:center;overflow:hidden}
     .logo-text{display:flex;align-items:center;gap:40px;margin-bottom:40px;perspective:1000px}
     .logo-text img{width:160px;height:160px;transition:transform .5s ease}
@@ -173,17 +155,17 @@
   <header>
     <img src="midatara_logo.png" alt="MiDatara Logo" />
     <nav class="nav-menu">
+      <button id="loginBtn">Ingresar</button>
       <a href="#hero">Inicio</a>
       <a href="#services">Servicios</a>
       <a href="#process">Proceso</a>
       <a href="#portfolio">Portafolio</a>
       <a href="#faq">Preguntas Frecuentes</a>
-      <button id="loginBtn">Ingresar</button>
     </nav>
     <i class="fas fa-bars hamburger" onclick="toggleMenu()"></i>
   </header>
 
-  <!-- SECCIONES -->
+  <!-- SECCIONES (sin cambios) -->
   <section class="hero" id="hero">
     <div class="logo-text">
       <img src="midatara_logo_texto.png" alt="MiDatara Logo Completo" />
@@ -197,22 +179,6 @@
 
   <!-- ... (todas las secciones sin cambios) ... -->
 
-  <section class="faq-section" id="faq">
-    <h2 style="font-size:2.5rem;margin-bottom:50px">Preguntas Frecuentes</h2>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <strong>¿Qué tipo de proyectos realizas?</strong>
-      <div class="faq-answer">Desde sitios web simples hasta aplicaciones web complejas, adaptadas a tus necesidades.</div>
-    </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <strong>¿Cuánto tiempo toma un proyecto?</strong>
-      <div class="faq-answer">Depende del alcance, pero suelo entregar proyectos iniciales en 2-6 semanas.</div>
-    </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <strong>¿Ofreces soporte tras la entrega?</strong>
-      <div class="faq-answer">Sí, proporciono soporte para ajustes y mantenimiento post-lanzamiento.</div>
-    </div>
-  </section>
-
   <footer>
     © 2025 MiDatara · Real Agency | 
     <a href="mailto:support@midatara.com" style="color:#fff;text-decoration:underline;font-weight:600">
@@ -220,10 +186,10 @@
     </a>
   </footer>
 
-  <!-- MODAL -->
+  <!-- MODAL LOGIN -->
   <div id="authModal" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="document.getElementById('authModal').style.display='none'">x</span>
+      <span class="close" onclick="document.getElementById('authModal').style.display='none'">×</span>
       <h2>Iniciar Sesión</h2>
       <input type="email" id="email" placeholder="Correo electrónico" required />
       <input type="password" id="password" placeholder="Contraseña" required />
