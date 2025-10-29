@@ -25,7 +25,6 @@
   
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    /* QUITAMOS overflow: hidden → EL BOTÓN SE VE */
     body { font-family: 'Poppins', sans-serif; background: #f4f7fc; color: #0a2240; min-height: 100vh; }
 
     /* LOADER */
@@ -37,7 +36,7 @@
     #loader i { font-size: 3rem; color: #d21f26; margin-bottom: 20px; animation: spin 1s linear infinite; }
     @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-    /* PORTAL OCULTO AL INICIO */
+    /* PORTAL OCULTO */
     #app { display: none; }
 
     header {
@@ -45,30 +44,38 @@
       padding: 20px; color: white; text-align: center;
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
       position: relative;
-      min-height: 70px; /* ← ASEGURA ESPACIO */
+      min-height: 70px;
       z-index: 100;
     }
     header h1 { font-size: 2rem; font-weight: 700; }
 
-    /* BOTÓN CERRAR SESIÓN → SIEMPRE VISIBLE */
+    /* BOTÓN CERRAR SESIÓN → 100% VISIBLE */
     .logout {
       position: absolute;
       top: 50%; right: 20px;
-      transform: translateY(-50%); /* ← CENTRADO VERTICAL */
-      background: rgba(255,255,255,0.2);
+      transform: translateY(-50%);
+      background: #ffffff !important; /* ← FONDO BLANCO SÓLIDO */
+      color: #d21f26 !important; /* ← TEXTO ROJO */
       padding: 10px 18px;
       border-radius: 50px;
-      color: white;
-      text-decoration: none;
       font-weight: 600;
       font-size: 0.9rem;
-      transition: 0.3s;
-      z-index: 101; /* ← POR ENCIMA DE TODO */
-      pointer-events: auto; /* ← CLICKEABLE */
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      border: 2px solid #d21f26; /* ← BORDE ROJO */
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 9999 !important;
+      transition: all 0.3s ease;
+      pointer-events: auto;
     }
+    .logout i { font-size: 1rem; }
     .logout:hover {
-      background: rgba(255,255,255,0.4);
+      background: #d21f26 !important;
+      color: white !important;
       transform: translateY(-50%) scale(1.05);
+      box-shadow: 0 6px 16px rgba(210,31,38,0.4);
     }
 
     .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
@@ -113,7 +120,10 @@
   <div id="app">
     <header>
       <h1>Portal MiDatara</h1>
-      <a href="#" id="logout" class="logout">Cerrar Sesión</a>
+      <!-- BOTÓN CON ICONO -->
+      <a href="#" id="logout" class="logout">
+        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+      </a>
     </header>
 
     <div class="container">
@@ -193,7 +203,6 @@
       });
     });
 
-    // Cerrar sesión
     document.getElementById('logout').onclick = (e) => {
       e.preventDefault();
       auth.signOut().then(() => {
