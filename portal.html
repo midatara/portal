@@ -3,6 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- === ANTI-CACHÉ PARA SEGURIDAD === -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  
   <title>Portal MiDatara - Mis Proyectos</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -10,11 +16,25 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Poppins', sans-serif; background: #f4f7fc; color: #0a2240; min-height: 100vh; }
-    header { background: linear-gradient(90deg, #0a2240, #d21f26); padding: 20px; color: white; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    body { font-family: 'Poppins', sans-serif; background: #f4f7fc; color: #0a2240; min-height: 100vh; overflow: hidden; }
+
+    /* LOADER */
+    #loader {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: #f4f7fc; display: flex; align-items: center; justify-content: center;
+      flex-direction: column; font-size: 1.2rem; color: #0a2240; z-index: 9999;
+    }
+    #loader i { font-size: 3rem; color: #d21f26; margin-bottom: 20px; animation: spin 1s linear infinite; }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    /* PORTAL OCULTO HASTA VERIFICAR */
+    #app { display: none; }
+
+    header { background: linear-gradient(90deg, #0a2240, #d21f26); padding: 20px; color: white; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative; }
     header h1 { font-size: 2rem; font-weight: 700; }
-    .logout { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 50px; color: white; text-decoration: none; font-weight: 600; }
+    .logout { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 50px; color: white; text-decoration: none; font-weight: 600; transition: 0.3s; }
     .logout:hover { background: rgba(255,255,255,0.3); }
+
     .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
     .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
     .project-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: transform 0.3s; }
@@ -23,62 +43,97 @@
     .project-content { padding: 20px; }
     .project-content h3 { font-size: 1.4rem; margin-bottom: 10px; color: #0a2240; }
     .project-content p { font-size: 0.95rem; color: #555; margin-bottom: 15px; line-height: 1.6; }
-    .project-link { display: inline-block; background: #d21f26; color: white; padding: 10px 20px; border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+    .project-link { display: inline-block; background: #d21f26; color: white; padding: 10px 20px; border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: 0.3s; }
     .project-link:hover { background: #ff6b6b; }
-    footer { text-align: center; padding: 30px; color: #666; font-size: 0.9rem; }
+
+    footer { text-align: center; padding: 30px; color: #666; font-size: 0.9rem; background: #fff; margin-top: 40px; }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Portal MiDatara</h1>
-    <a href="#" id="logout" class="logout">Cerrar Sesión</a>
-  </header>
 
-  <div class="container">
-    <div class="projects-grid">
-      <!-- PROYECTO 1 -->
-      <div class="project-card">
-        <div class="project-img"><i class="fas fa-globe"></i></div>
-        <div class="project-content">
-          <h3>Medra</h3>
-          <p><strong>Significado:</strong> "Medra" proviene de "mejorar" y "data". Es una plataforma minimalista para presentar proyectos con elegancia y claridad. Ideal para portafolios creativos.</p>
-          <a href="https://medra.midatara.com/" target="_blank" class="project-link">Visitar →</a>
-        </div>
-      </div>
-
-      <!-- PROYECTO 2 -->
-      <div class="project-card">
-        <div class="project-img"><i class="fas fa-cogs"></i></div>
-        <div class="project-content">
-          <h3>MiDatara</h3>
-          <p><strong>Significado:</strong> "Mi Data, Real Agency". Mi marca personal como desarrollador independiente. Enfocado en soluciones digitales auténticas, personalizadas y efectivas.</p>
-          <a href="https://midatara.com/" target="_blank" class="project-link">Visitar →</a>
-        </div>
-      </div>
-
-      <!-- Puedes agregar más proyectos aquí -->
-    </div>
+  <!-- LOADER -->
+  <div id="loader">
+    <i class="fas fa-spinner"></i>
+    <p>Verificando acceso seguro...</p>
   </div>
 
-  <footer>
-    © 2025 MiDatara · Todos los derechos reservados
-  </footer>
+  <!-- PORTAL (OCULTO HASTA LOGIN) -->
+  <div id="app">
+    <header>
+      <h1>Portal MiDatara</h1>
+      <a href="#" id="logout" class="logout">Cerrar Sesión</a>
+    </header>
 
+    <div class="container">
+      <div class="projects-grid">
+        <!-- PROYECTO 1 -->
+        <div class="project-card">
+          <div class="project-img"><i class="fas fa-globe"></i></div>
+          <div class="project-content">
+            <h3>Medra</h3>
+            <p><strong>Significado:</strong> "Medra" proviene de "mejorar" y "data". Es una plataforma minimalista para presentar proyectos con elegancia y claridad. Ideal para portafolios creativos.</p>
+            <a href="https://medra.midatara.com/" target="_blank" class="project-link">Visitar</a>
+          </div>
+        </div>
+
+        <!-- PROYECTO 2 -->
+        <div class="project-card">
+          <div class="project-img"><i class="fas fa-cogs"></i></div>
+          <div class="project-content">
+            <h3>MiDatara</h3>
+            <p><strong>Significado:</strong> "Mi Data, Real Agency". Mi marca personal como desarrollador independiente. Enfocado en soluciones digitales auténticas, personalizadas y efectivas.</p>
+            <a href="https://midatara.com/" target="_blank" class="project-link">Visitar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      © 2025 MiDatara · Todos los derechos reservados
+    </footer>
+  </div>
+
+  <!-- SCRIPT COMPLETO CON FIREBASE -->
   <script>
-    const firebaseConfig = { /* MISMA CONFIG */ };
+    // === CONFIGURACIÓN COMPLETA DE FIREBASE ===
+    const firebaseConfig = {
+      apiKey: "AIzaSyCRtatAv2jLJ87X0A5abCHNp6YE8fkdm7c",
+      authDomain: "portal-adfee.firebaseapp.com",
+      projectId: "portal-adfee",
+      storageBucket: "portal-adfee.firebasestorage.app",
+      messagingSenderId: "561611355545",
+      appId: "1:561611355545:web:406d128b95b4cd0782cf08",
+      measurementId: "G-Y9Q1LM7BDY"
+    };
+
+    // Inicializar Firebase
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    // Cerrar sesión
+    const app = document.getElementById('app');
+    const loader = document.getElementById('loader');
+
+    // === VERIFICAR SESIÓN ANTES DE MOSTRAR ===
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        // USUARIO AUTENTICADO
+        loader.style.display = 'none';
+        app.style.display = 'block';
+      } else {
+        // NO HAY SESIÓN → REDIRIGIR
+        window.location.href = 'index.html';
+      }
+    });
+
+    // === CERRAR SESIÓN ===
     document.getElementById('logout').onclick = (e) => {
       e.preventDefault();
-      auth.signOut().then(() => window.location.href = 'index.html');
+      auth.signOut().then(() => {
+        window.location.href = 'index.html';
+      }).catch(err => {
+        alert('Error al cerrar sesión: ' + err.message);
+      });
     };
-
-    // Redirigir si no está logueado
-    auth.onAuthStateChanged(user => {
-      if (!user) window.location.href = 'index.html';
-    });
   </script>
 </body>
 </html>
