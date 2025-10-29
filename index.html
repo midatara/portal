@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MiDatara - Transformando Datos en Experiencias Digitales</title>
   <link rel="icon" type="image/png" href="midatara_logo.png" />
+  <link rel="manifest" href="manifest.json" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -547,6 +548,13 @@
       menu.classList.toggle('active');
       hamburger.classList.toggle('fa-bars');
       hamburger.classList.toggle('fa-times');
+    }
+
+    // Registro del Service Worker (sin console.log)
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+      });
     }
   </script>
 </body>
