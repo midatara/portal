@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <!-- === ANTI-CACHÉ PARA SEGURIDAD === -->
+  <!-- ANTI-CACHÉ -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -27,7 +27,7 @@
     #loader i { font-size: 3rem; color: #d21f26; margin-bottom: 20px; animation: spin 1s linear infinite; }
     @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-    /* PORTAL OCULTO HASTA VERIFICAR */
+    /* PORTAL OCULTO */
     #app { display: none; }
 
     header { background: linear-gradient(90deg, #0a2240, #d21f26); padding: 20px; color: white; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative; }
@@ -54,10 +54,10 @@
   <!-- LOADER -->
   <div id="loader">
     <i class="fas fa-spinner"></i>
-    <p>Verificando acceso seguro...</p>
+    <p>Conectando con tus raíces digitales...</p>
   </div>
 
-  <!-- PORTAL (OCULTO HASTA LOGIN) -->
+  <!-- PORTAL -->
   <div id="app">
     <header>
       <h1>Portal MiDatara</h1>
@@ -66,36 +66,47 @@
 
     <div class="container">
       <div class="projects-grid">
-        <!-- PROYECTO 1 -->
+
+        <!-- PROYECTO 1: MEDRA -->
         <div class="project-card">
-          <div class="project-img"><i class="fas fa-globe"></i></div>
+          <div class="project-img"><i class="fas fa-seedling"></i></div>
           <div class="project-content">
             <h3>Medra</h3>
-            <p><strong>Significado:</strong> "Medra" proviene de "mejorar" y "data". Es una plataforma minimalista para presentar proyectos con elegancia y claridad. Ideal para portafolios creativos.</p>
+            <p>“Medra” transmite ideas de:</p>
+            <ul style="margin:10px 0; padding-left:20px; font-size:0.9rem; color:#0a2240;">
+              <li>Crecimiento</li>
+              <li>Progreso sostenible</li>
+              <li>Evolución positiva</li>
+              <li>Desarrollo personal o empresarial</li>
+            </ul>
             <a href="https://medra.midatara.com/" target="_blank" class="project-link">Visitar</a>
           </div>
         </div>
 
-        <!-- PROYECTO 2 -->
+        <!-- PROYECTO 2: MiDatara -->
         <div class="project-card">
-          <div class="project-img"><i class="fas fa-cogs"></i></div>
+          <div class="project-img"><i class="fas fa-heart"></i></div>
           <div class="project-content">
             <h3>MiDatara</h3>
-            <p><strong>Significado:</strong> "Mi Data, Real Agency". Mi marca personal como desarrollador independiente. Enfocado en soluciones digitales auténticas, personalizadas y efectivas.</p>
+            <p><strong>Mi</strong> (algo personal, algo mío) + <strong>DATA</strong> (datos) + <strong>RA</strong> (Raíz)</p>
+            <p style="margin-top:8px; font-size:0.9rem; font-style:italic; color:#d21f26;">
+              “MiDataRA” = <strong>Mis datos desde la raíz</strong>
+            </p>
+            <p>Una plataforma que conecta con la esencia de tu información personal. Enfoque humano, ético, cálido y confiable: <strong>transparencia, confianza y privacidad</strong>.</p>
             <a href="https://midatara.com/" target="_blank" class="project-link">Visitar</a>
           </div>
         </div>
+
       </div>
     </div>
 
     <footer>
-      © 2025 MiDatara · Todos los derechos reservados
+      © 2025 MiDatara · Tus datos, con raíces profundas
     </footer>
   </div>
 
-  <!-- SCRIPT COMPLETO CON FIREBASE -->
+  <!-- SCRIPT -->
   <script>
-    // === CONFIGURACIÓN COMPLETA DE FIREBASE ===
     const firebaseConfig = {
       apiKey: "AIzaSyCRtatAv2jLJ87X0A5abCHNp6YE8fkdm7c",
       authDomain: "portal-adfee.firebaseapp.com",
@@ -106,32 +117,25 @@
       measurementId: "G-Y9Q1LM7BDY"
     };
 
-    // Inicializar Firebase
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
     const app = document.getElementById('app');
     const loader = document.getElementById('loader');
 
-    // === VERIFICAR SESIÓN ANTES DE MOSTRAR ===
     auth.onAuthStateChanged(user => {
       if (user) {
-        // USUARIO AUTENTICADO
         loader.style.display = 'none';
         app.style.display = 'block';
       } else {
-        // NO HAY SESIÓN → REDIRIGIR
         window.location.href = 'index.html';
       }
     });
 
-    // === CERRAR SESIÓN ===
     document.getElementById('logout').onclick = (e) => {
       e.preventDefault();
       auth.signOut().then(() => {
         window.location.href = 'index.html';
-      }).catch(err => {
-        alert('Error al cerrar sesión: ' + err.message);
       });
     };
   </script>
