@@ -195,6 +195,32 @@
       text-shadow: 0 2px 10px rgba(255, 255, 255, 0.5);
     }
 
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 30px;
+      padding: 14px 28px;
+      background: linear-gradient(135deg, #d21f26, #ff6b6b);
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      box-shadow: 0 8px 20px rgba(210, 31, 38, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .contact-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 25px rgba(210, 31, 38, 0.4);
+      background: linear-gradient(135deg, #ff6b6b, #d21f26);
+    }
+
+    .contact-btn i {
+      font-size: 1.3rem;
+    }
+
     .section {
       padding: 80px 20px;
       max-width: 1200px;
@@ -336,42 +362,6 @@
       font-style: italic;
     }
 
-    .newsletter-section {
-      padding: 80px 20px;
-      background: linear-gradient(135deg, #0a2240, #d21f26);
-      color: #fff;
-      text-align: center;
-    }
-
-    .newsletter-form {
-      max-width: 500px;
-      margin: 0 auto;
-      display: flex;
-      gap: 10px;
-    }
-
-    .newsletter-form input {
-      flex: 1;
-      padding: 15px;
-      border: none;
-      border-radius: 5px;
-      font-size: 1rem;
-    }
-
-    .newsletter-form button {
-      padding: 15px 30px;
-      background: #d21f26;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .newsletter-form button:hover {
-      background: #ff6b6b;
-    }
-
     footer {
       padding: 40px;
       text-align: center;
@@ -386,7 +376,6 @@
       .logo-text { gap: 20px; }
       .logo-text img { width: 120px; height: 120px; }
       .services-grid, .process-grid, .portfolio-grid { grid-template-columns: 1fr; }
-      .newsletter-form { flex-direction: column; }
       .mission { padding: 40px 20px; }
     }
 
@@ -406,7 +395,6 @@
       <a href="#process">Proceso</a>
       <a href="#portfolio">Portafolio</a>
       <a href="#faq">Preguntas Frecuentes</a>
-      <a href="#newsletter">Newsletter</a>
     </nav>
     <i class="fas fa-bars hamburger" onclick="toggleMenu()"></i>
   </header>
@@ -417,6 +405,9 @@
       <h1><span class="mi">Mi</span><span class="datara">Datara</span></h1>
     </div>
     <p>Transformando tus datos en experiencias digitales únicas. Como desarrollador independiente, diseño páginas y aplicaciones web personalizadas que dan vida a tus ideas con creatividad y tecnología de vanguardia.</p>
+    <a href="mailto:support@midatara.com" class="contact-btn">
+      <i class="fas fa-envelope"></i> support@midatara.com
+    </a>
   </section>
 
   <section class="section mission">
@@ -488,7 +479,8 @@
         <h3>E-commerce</h3>
         <p>Diseño tiendas online optimizadas para ventas, con interfaces intuitivas y seguras.</p>
       </div>
-    </section>
+    </div>
+  </section>
 
   <section class="faq-section" id="faq">
     <h2 style="font-size: 2.5rem; margin-bottom: 50px;">Preguntas Frecuentes</h2>
@@ -506,17 +498,11 @@
     </div>
   </section>
 
-  <section class="newsletter-section" id="newsletter">
-    <h2 style="font-size: 2.5rem; margin-bottom: 30px;">Suscríbete a Mi Newsletter</h2>
-    <p>Mantente al tanto de mis proyectos, consejos de diseño web y tendencias digitales.</p>
-    <form class="newsletter-form" onsubmit="subscribe(event)">
-      <input type="email" placeholder="Tu correo electrónico" required>
-      <button type="submit">Suscribirse</button>
-    </form>
-  </section>
-
   <footer>
-    © 2025 MiDatara · Real Agency | Transformando datos en realidades digitales | <strong>Contacto</strong>
+    © 2025 MiDatara · Real Agency | 
+    <a href="mailto:support@midatara.com" style="color: #fff; text-decoration: underline; font-weight: 600;">
+      support@midatara.com
+    </a>
   </footer>
 
   <script>
@@ -553,11 +539,6 @@
     function toggleFaq(element) {
       const answer = element.querySelector('.faq-answer');
       answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function subscribe(event) {
-      event.preventDefault();
-      alert('¡Gracias por suscribirte! Te enviaré novedades pronto.');
     }
 
     function toggleMenu() {
