@@ -25,6 +25,7 @@
   
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    /* QUITAMOS overflow: hidden → EL BOTÓN SE VE */
     body { font-family: 'Poppins', sans-serif; background: #f4f7fc; color: #0a2240; min-height: 100vh; }
 
     /* LOADER */
@@ -42,17 +43,33 @@
     header {
       background: linear-gradient(90deg, #0a2240, #d21f26);
       padding: 20px; color: white; text-align: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      position: relative;
+      min-height: 70px; /* ← ASEGURA ESPACIO */
+      z-index: 100;
     }
     header h1 { font-size: 2rem; font-weight: 700; }
 
+    /* BOTÓN CERRAR SESIÓN → SIEMPRE VISIBLE */
     .logout {
-      position: absolute; top: 20px; right: 20px;
-      background: rgba(255,255,255,0.2); padding: 8px 16px;
-      border-radius: 50px; color: white; text-decoration: none;
-      font-weight: 600; transition: 0.3s;
+      position: absolute;
+      top: 50%; right: 20px;
+      transform: translateY(-50%); /* ← CENTRADO VERTICAL */
+      background: rgba(255,255,255,0.2);
+      padding: 10px 18px;
+      border-radius: 50px;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: 0.3s;
+      z-index: 101; /* ← POR ENCIMA DE TODO */
+      pointer-events: auto; /* ← CLICKEABLE */
     }
-    .logout:hover { background: rgba(255,255,255,0.3); }
+    .logout:hover {
+      background: rgba(255,255,255,0.4);
+      transform: translateY(-50%) scale(1.05);
+    }
 
     .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
     .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
@@ -60,7 +77,6 @@
     .project-card {
       background: white; border-radius: 16px; overflow: hidden;
       box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: transform 0.3s;
-      /* NO opacity:0 aquí */
     }
     .project-card:hover { transform: translateY(-10px); }
 
@@ -141,9 +157,8 @@
     </footer>
   </div>
 
-  <!-- SCRIPT CORREGIDO -->
+  <!-- SCRIPT -->
   <script>
-    // Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyCRtatAv2jLJ87X0A5abCHNp6YE8fkdm7c",
       authDomain: "portal-adfee.firebaseapp.com",
@@ -159,20 +174,16 @@
     const app = document.getElementById('app');
     const loader = document.getElementById('loader');
 
-    // Esperar a que el DOM esté listo
     document.addEventListener('DOMContentLoaded', () => {
       auth.onAuthStateChanged(user => {
         if (user) {
-          // Mostrar portal
           loader.style.display = 'none';
           app.style.display = 'block';
 
-          // ANIMACIÓN GSAP SEGURA
           gsap.fromTo(".project-card", 
             { y: 50, opacity: 0 },
             { y: 0, opacity: 1, duration: 0.8, stagger: 0.3, ease: "back.out(1.7)" }
           );
-
           gsap.from("header", { y: -20, opacity: 0, duration: 0.8 });
           gsap.from(".logout", { x: 20, opacity: 0, duration: 0.6, delay: 0.5 });
 
@@ -185,7 +196,9 @@
     // Cerrar sesión
     document.getElementById('logout').onclick = (e) => {
       e.preventDefault();
-      auth.signOut().then(() => window.location.href = 'index.html');
+      auth.signOut().then(() => {
+        window.location.href = 'index.html';
+      }).catch(err => alert('Error: ' + err.message));
     };
   </script>
 </body>
