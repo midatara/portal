@@ -9,7 +9,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   
-  <!-- FAVICON = MISMO QUE index.html -->
+  <!-- FAVICON -->
   <link rel="icon" type="image/png" href="midatara_logo.png" />
   
   <title>Portal MiDatara - Mis Proyectos</title>
@@ -25,9 +25,9 @@
   
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Poppins', sans-serif; background: #f4f7fc; color: #0a2240; min-height: 100vh; overflow: hidden; }
+    body { font-family: 'Poppins', sans-serif; background: #f4f7fc; color: #0a2240; min-height: 100vh; }
 
-    /* LOADER ANIMADO */
+    /* LOADER */
     #loader {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: #f4f7fc; display: flex; align-items: center; justify-content: center;
@@ -36,8 +36,8 @@
     #loader i { font-size: 3rem; color: #d21f26; margin-bottom: 20px; animation: spin 1s linear infinite; }
     @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-    /* PORTAL OCULTO */
-    #app { display: none; opacity: 0; }
+    /* PORTAL OCULTO AL INICIO */
+    #app { display: none; }
 
     header {
       background: linear-gradient(90deg, #0a2240, #d21f26);
@@ -60,17 +60,15 @@
     .project-card {
       background: white; border-radius: 16px; overflow: hidden;
       box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: transform 0.3s;
-      opacity: 0; transform: translateY(30px);
+      /* NO opacity:0 aquí */
     }
-    .project-card.visible { opacity: 1; transform: translateY(0); }
+    .project-card:hover { transform: translateY(-10px); }
 
     .project-img {
       height: 180px; background: linear-gradient(135deg, #d21f26, #ff6b6b);
       display: flex; align-items: center; justify-content: center;
-      color: white; font-size: 3rem; transition: transform 0.3s;
+      color: white; font-size: 3rem;
     }
-    .project-card:hover .project-img { transform: scale(1.05); }
-
     .project-content { padding: 20px; }
     .project-content h3 { font-size: 1.4rem; margin-bottom: 10px; color: #0a2240; }
     .project-content p { font-size: 0.95rem; color: #555; margin-bottom: 15px; line-height: 1.6; }
@@ -85,14 +83,6 @@
       text-align: center; padding: 30px; color: #666; font-size: 0.9rem;
       background: #fff; margin-top: 40px;
     }
-
-    /* Animación de títulos */
-    .typewriter {
-      overflow: hidden; border-right: .15em solid #d21f26; white-space: nowrap;
-      margin: 0 auto; letter-spacing: .15em; animation: typing 3s steps(30, end), blink .75s step-end infinite;
-    }
-    @keyframes typing { from { width: 0 } to { width: 100% } }
-    @keyframes blink { from, to { border-color: transparent } 50% { border-color: #d21f26; } }
   </style>
 </head>
 <body>
@@ -106,7 +96,7 @@
   <!-- PORTAL -->
   <div id="app">
     <header>
-      <h1 class="typewriter">Portal MiDatara</h1>
+      <h1>Portal MiDatara</h1>
       <a href="#" id="logout" class="logout">Cerrar Sesión</a>
     </header>
 
@@ -151,7 +141,7 @@
     </footer>
   </div>
 
-  <!-- SCRIPT -->
+  <!-- SCRIPT CORREGIDO -->
   <script>
     // Firebase
     const firebaseConfig = {
@@ -169,31 +159,27 @@
     const app = document.getElementById('app');
     const loader = document.getElementById('loader');
 
-    // Verificar login
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        loader.style.display = 'none';
-        app.style.display = 'block';
-        app.style.opacity = 1;
+    // Esperar a que el DOM esté listo
+    document.addEventListener('DOMContentLoaded', () => {
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          // Mostrar portal
+          loader.style.display = 'none';
+          app.style.display = 'block';
 
-        // ANIMACIONES GSAP
-        gsap.from(".project-card", {
-          y: 50,
-          opacity: 0,
-          duration: 0.8,
-          stagger: 0.3,
-          ease: "back.out(1.7)",
-          onComplete: () => {
-            document.querySelectorAll('.project-card').forEach(card => card.classList.add('visible'));
-          }
-        });
+          // ANIMACIÓN GSAP SEGURA
+          gsap.fromTo(".project-card", 
+            { y: 50, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.8, stagger: 0.3, ease: "back.out(1.7)" }
+          );
 
-        gsap.from("header h1", { opacity: 0, y: -20, duration: 1, delay: 0.5 });
-        gsap.from(".logout", { opacity: 0, x: 20, duration: 0.6, delay: 0.8 });
+          gsap.from("header", { y: -20, opacity: 0, duration: 0.8 });
+          gsap.from(".logout", { x: 20, opacity: 0, duration: 0.6, delay: 0.5 });
 
-      } else {
-        window.location.href = 'index.html';
-      }
+        } else {
+          window.location.href = 'index.html';
+        }
+      });
     });
 
     // Cerrar sesión
