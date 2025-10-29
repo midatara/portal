@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MiDatara - Transformando Datos en Experiencias Digitales</title>
+  <link rel="icon" type="image/png" href="midatara_logo.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(180deg, #f8f7f5 0%, #e0e7ff 50%, #ffffff 100%);
+      color: #0a2240;
+      overflow-x: hidden;
+    }
+
+    header {
+      padding: 15px 20px;
+      width: 100%;
+      background: linear-gradient(90deg, rgba(210, 31, 38, 0.95), rgba(10, 34, 64, 0.9));
+      backdrop-filter: blur(8px);
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.3s ease;
+    }
+
+    header img {
+      width: 70px;
+      height: 70px;
+      animation: pulse-logo 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse-logo {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-menu a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .nav-menu a:hover {
+      color: #ff6b6b;
+      transform: translateY(-2px);
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 1.5rem;
+      color: #fff;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .hamburger:hover {
+      transform: rotate(90deg);
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 10px 15px;
+      }
+
+      header img {
+        width: 60px;
+        height: 60px;
+      }
+
+      .nav-menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(10, 34, 64, 0.98);
+        padding: 15px 0;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+      }
+
+      .nav-menu.active {
+        display: flex;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .nav-menu a {
+        font-size: 0.9rem;
+        padding: 10px;
+        display: block;
+      }
+
+      .hamburger {
+        display: block;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header {
+        padding: 8px 10px;
+      }
+
+      header img {
+        width: 50px;
+        height: 50px;
+      }
+
+      .nav-menu a {
+        font-size: 0.85rem;
+        padding: 8px;
+      }
+
+      .hamburger {
+        font-size: 1.3rem;
+      }
+    }
+
+    .hero {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 20px;
+      min-height: 100vh;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .logo-text {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      margin-bottom: 40px;
+      perspective: 1000px;
+    }
+
+    .logo-text img {
+      width: 160px;
+      height: 160px;
+      transition: transform 0.5s ease;
+    }
+
+    h1 {
+      font-size: 5rem;
+      font-weight: 900;
+      text-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      animation: text-glow 3s ease-in-out infinite;
+    }
+
+    h1 .mi {
+      color: #d21f26;
+    }
+
+    h1 .datara {
+      color: #000000;
+    }
+
+    @keyframes text-glow {
+      0%, 100% { text-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); }
+      50% { text-shadow: 0 5px 30px rgba(0, 0, 0, 0.5); }
+    }
+
+    .hero p {
+      font-size: 1.5rem;
+      max-width: 800px;
+      line-height: 1.7;
+      color: #0a2240;
+      text-shadow: 0 2px 10px rgba(255, 255, 255, 0.5);
+    }
+
+    .section {
+      padding: 80px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .mission {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(240, 240, 240, 0.8));
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 60px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    }
+
+    .mission p {
+      font-size: 1.2rem;
+      line-height: 1.8;
+      color: #0a2240;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .services-section {
+      padding: 80px 20px;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .service-card {
+      background: #fff;
+      padding: 40px 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .service-card i {
+      font-size: 3rem;
+      color: #d21f26;
+      margin-bottom: 20px;
+    }
+
+    .service-card h3 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      color: #0a2240;
+    }
+
+    .process-section {
+      padding: 80px 20px;
+      background: linear-gradient(180deg, rgba(210, 31, 38, 0.1), transparent);
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .process-card {
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .process-card h3 {
+      color: #d21f26;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+
+    .portfolio-section {
+      padding: 80px 20px;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .portfolio-card {
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .portfolio-card h3 {
+      color: #0a2240;
+      margin-bottom: 15px;
+    }
+
+    .faq-section {
+      padding: 80px 20px;
+      background: rgba(255, 255, 255, 0.9);
+      text-align: center;
+    }
+
+    .faq-item {
+      max-width: 800px;
+      margin: 20px auto;
+      text-align: left;
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .faq-item:hover {
+      background: #e9ecef;
+    }
+
+    .faq-answer {
+      display: none;
+      margin-top: 10px;
+      font-style: italic;
+    }
+
+    .newsletter-section {
+      padding: 80px 20px;
+      background: linear-gradient(135deg, #0a2240, #d21f26);
+      color: #fff;
+      text-align: center;
+    }
+
+    .newsletter-form {
+      max-width: 500px;
+      margin: 0 auto;
+      display: flex;
+      gap: 10px;
+    }
+
+    .newsletter-form input {
+      flex: 1;
+      padding: 15px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .newsletter-form button {
+      padding: 15px 30px;
+      background: #d21f26;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .newsletter-form button:hover {
+      background: #ff6b6b;
+    }
+
+    footer {
+      padding: 40px;
+      text-align: center;
+      background: linear-gradient(135deg, #0a2240, #d21f26);
+      color: #fff;
+      font-size: 1.1rem;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 3rem; }
+      .logo-text { gap: 20px; }
+      .logo-text img { width: 120px; height: 120px; }
+      .services-grid, .process-grid, .portfolio-grid { grid-template-columns: 1fr; }
+      .newsletter-form { flex-direction: column; }
+      .mission { padding: 40px 20px; }
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 2.5rem; }
+      .hero p { font-size: 1.2rem; }
+      .logo-text img { width: 100px; height: 100px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="midatara_logo.png" alt="MiDatara Logo" />
+    <nav class="nav-menu">
+      <a href="#hero">Inicio</a>
+      <a href="#services">Servicios</a>
+      <a href="#process">Proceso</a>
+      <a href="#portfolio">Portafolio</a>
+      <a href="#faq">Preguntas Frecuentes</a>
+      <a href="#newsletter">Newsletter</a>
+    </nav>
+    <i class="fas fa-bars hamburger" onclick="toggleMenu()"></i>
+  </header>
+
+  <section class="hero" id="hero">
+    <div class="logo-text">
+      <img src="midatara_logo_texto.png" alt="MiDatara Logo Completo" />
+      <h1><span class="mi">Mi</span><span class="datara">Datara</span></h1>
+    </div>
+    <p>Transformando tus datos en experiencias digitales únicas. Como desarrollador independiente, diseño páginas y aplicaciones web personalizadas que dan vida a tus ideas con creatividad y tecnología de vanguardia.</p>
+  </section>
+
+  <section class="section mission">
+    <h2 style="font-size: 2.5rem; margin-bottom: 30px;">¿Qué es MiDatara?</h2>
+    <p><strong>MiDatara</strong>, o "<strong>Mi Data, Real Agency</strong>", es mi marca personal como desarrollador independiente especializado en crear soluciones digitales. El nombre refleja mi enfoque: <strong>Mi</strong> por la atención personalizada que ofrezco, <strong>Data</strong> por mi pasión por transformar información en experiencias visuales e interactivas, y <strong>RA (Real Agency)</strong> por mi compromiso con resultados auténticos y efectivos.</p>
+    <p>Trabajo de cerca contigo para entender tus necesidades y convertir tus ideas en sitios web y aplicaciones que no solo son funcionales, sino también atractivos y adaptados a tu visión.</p>
+  </section>
+
+  <section class="services-section" id="services">
+    <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 50px;">Mis Servicios</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <i class="fas fa-code"></i>
+        <h3>Desarrollo Web</h3>
+        <p>Creo sitios web responsivos y modernos, optimizados para cualquier dispositivo, usando las últimas tecnologías.</p>
+      </div>
+      <div class="service-card">
+        <i class="fas fa-mobile-alt"></i>
+        <h3>Aplicaciones Web</h3>
+        <p>Diseño aplicaciones web dinámicas que integran funcionalidades avanzadas para tus necesidades específicas.</p>
+      </div>
+      <div class="service-card">
+        <i class="fas fa-paint-brush"></i>
+        <h3>Diseño UI/UX</h3>
+        <p>Desarrollo interfaces intuitivas y atractivas para garantizar una experiencia de usuario excepcional.</p>
+      </div>
+      <div class="service-card">
+        <i class="fas fa-cogs"></i>
+        <h3>Integraciones</h3>
+        <p>Conecto tus plataformas con APIs y sistemas externos para un flujo de trabajo eficiente.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="process-section" id="process">
+    <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 50px;">Mi Proceso</h2>
+    <div class="process-grid">
+      <div class="process-card">
+        <h3>1. Descubrimiento</h3>
+        <p>Escucho tus ideas y objetivos para entender tus necesidades y definir el alcance del proyecto.</p>
+      </div>
+      <div class="process-card">
+        <h3>2. Diseño</h3>
+        <p>Creo prototipos visuales y funcionales para que veas cómo cobrará vida tu proyecto.</p>
+      </div>
+      <div class="process-card">
+        <h3>3. Desarrollo</h3>
+        <p>Construyo tu sitio o aplicación con código limpio y tecnologías modernas.</p>
+      </div>
+      <div class="process-card">
+        <h3>4. Entrega</h3>
+        <p>Te entrego un producto listo para usar, con soporte para ajustes finales.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="portfolio-section" id="portfolio">
+    <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 50px;">Mi Portafolio</h2>
+    <div class="portfolio-grid">
+      <div class="portfolio-card">
+        <h3>Sitios Web Personalizados</h3>
+        <p>Desarrollo sitios únicos para negocios, portafolios y blogs, con un enfoque en diseño y funcionalidad.</p>
+      </div>
+      <div class="portfolio-card">
+        <h3>Aplicaciones Web</h3>
+        <p>Creo aplicaciones interactivas para gestionar datos, mejorar procesos o conectar con usuarios.</p>
+      </div>
+      <div class="portfolio-card">
+        <h3>E-commerce</h3>
+        <p>Diseño tiendas online optimizadas para ventas, con interfaces intuitivas y seguras.</p>
+      </div>
+    </section>
+
+  <section class="faq-section" id="faq">
+    <h2 style="font-size: 2.5rem; margin-bottom: 50px;">Preguntas Frecuentes</h2>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <strong>¿Qué tipo de proyectos realizas?</strong>
+      <div class="faq-answer">Desde sitios web simples hasta aplicaciones web complejas, adaptadas a tus necesidades.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <strong>¿Cuánto tiempo toma un proyecto?</strong>
+      <div class="faq-answer">Depende del alcance, pero suelo entregar proyectos iniciales en 2-6 semanas.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <strong>¿Ofreces soporte tras la entrega?</strong>
+      <div class="faq-answer">Sí, proporciono soporte para ajustes y mantenimiento post-lanzamiento.</div>
+    </div>
+  </section>
+
+  <section class="newsletter-section" id="newsletter">
+    <h2 style="font-size: 2.5rem; margin-bottom: 30px;">Suscríbete a Mi Newsletter</h2>
+    <p>Mantente al tanto de mis proyectos, consejos de diseño web y tendencias digitales.</p>
+    <form class="newsletter-form" onsubmit="subscribe(event)">
+      <input type="email" placeholder="Tu correo electrónico" required>
+      <button type="submit">Suscribirse</button>
+    </form>
+  </section>
+
+  <footer>
+    © 2025 MiDatara · Real Agency | Transformando datos en realidades digitales | <strong>Contacto</strong>
+  </footer>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.from('.hero', { duration: 1.5, y: 150, opacity: 0, ease: 'power4.out' });
+    gsap.from('.hero h1', { duration: 1.5, y: 100, opacity: 0, ease: 'power3.out', delay: 0.5 });
+    gsap.from('.hero p', { duration: 1.5, y: 50, opacity: 0, ease: 'power2.out', delay: 0.7 });
+
+    gsap.utils.toArray('.service-card').forEach((card, i) => {
+      gsap.from(card, {
+        scrollTrigger: { trigger: card, start: 'top 85%', toggleActions: 'play none none reverse' },
+        duration: 1.2, y: 150, opacity: 0, rotationX: -90, ease: 'back.out(1.7)', delay: i * 0.3
+      });
+    });
+
+    gsap.from('.mission', { scrollTrigger: { trigger: '.mission', start: 'top 80%' }, duration: 1.5, scale: 0.9, opacity: 0, ease: 'power3.out' });
+    gsap.from('.mission p', { scrollTrigger: { trigger: '.mission', start: 'top 80%' }, duration: 1.5, y: 50, opacity: 0, stagger: 0.3, ease: 'power2.out' });
+
+    gsap.utils.toArray('.process-card').forEach((card, i) => {
+      gsap.from(card, {
+        scrollTrigger: { trigger: card, start: 'top 85%', toggleActions: 'play none none reverse' },
+        duration: 1.2, y: 150, opacity: 0, ease: 'back.out(1.7)', delay: i * 0.3
+      });
+    });
+
+    gsap.utils.toArray('.portfolio-card').forEach((card, i) => {
+      gsap.from(card, {
+        scrollTrigger: { trigger: card, start: 'top 85%', toggleActions: 'play none none reverse' },
+        duration: 1.2, y: 150, opacity: 0, ease: 'back.out(1.7)', delay: i * 0.3
+      });
+    });
+
+    function toggleFaq(element) {
+      const answer = element.querySelector('.faq-answer');
+      answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function subscribe(event) {
+      event.preventDefault();
+      alert('¡Gracias por suscribirte! Te enviaré novedades pronto.');
+    }
+
+    function toggleMenu() {
+      const menu = document.querySelector('.nav-menu');
+      const hamburger = document.querySelector('.hamburger');
+      menu.classList.toggle('active');
+      hamburger.classList.toggle('fa-bars');
+      hamburger.classList.toggle('fa-times');
+    }
+  </script>
+</body>
+</html>
